@@ -53,9 +53,12 @@
 			model.set('content', this.$el.find('textarea[name=content]').val());
 			model.set('date', this.$el.find('input[name=date]').val());
 
-			App.Task.tasks.add(model);
-
-			App.Task.Router.instance.navigate('tasks', {trigger: true});
+			if (model.isValid()) {
+				App.Task.tasks.add(model);
+				App.Task.Router.instance.navigate('tasks', {trigger: true});
+			} else {
+				App.displayError(model, this);
+			}
 		}
 	});
 
@@ -76,12 +79,18 @@
 			var content = this.$el.find('textarea[name=content]')[0].value;
 			var date = this.$el.find('input[name=date]')[0].value;
 			var index = this.$el.find('form').attr('id');
-			var model = App.Task.tasks.at(index);
+			
+			var model = new App.Task.Model();
 			model.set('title', title);
 			model.set('content', content);
 			model.set('date', date);
 
-			App.Task.Router.instance.navigate('tasks', {trigger: true});
+			if (model.isValid()) {
+				App.Task.Model.copy(model, this.model);
+				App.Task.Router.instance.navigate('tasks', {trigger: true});
+			} else {
+				App.displayError(model, this);
+			}
 		},
 
 		render: function() {
