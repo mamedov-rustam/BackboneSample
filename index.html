@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Backbone hello world!</title>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body>
+ 
+<div class="container">
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#home">Tasker</a>
+		</div>
+
+		<div class="navbar-collapse collapse">
+		    <ul class="nav navbar-nav menu-list">
+		      <li><a href="#home">Home</a></li>
+		      <li><a href="#tasks">Tasks</a></li>
+		    </ul>
+		</div>
+	</nav>
+
+	<div class="content">
+
+	</div>
+
+	<footer class="navbar navbar-default navbar-fixed-bottom">
+		<div class="container">
+			<div class="row">
+				<p class="text-center">Copyright &copy; 2015 by Rustam Mamedov</p>
+			</div>
+		</div>
+	</footer>
+</div>
+
+<script type="text/html" id='task-collection-template'>
+	<div class='page-header'><h1>All tasks </h1></div>
+	<table class='table table-condensed'>
+		<thead>
+			<td class="col-md-2">Date</td>
+			<td class="col-md-7">Title</td>
+			<td class="col-md-3">Actions</td>
+		</thead>
+		<tbody>
+		<% forEach(function(model, index){ %>
+			<tr>
+			<td><%=model.date%></td>
+			<td><a href='#task/view/<%=index%>'><%= model.title %></a></td>
+			<td>
+				<a href='#task/edit/<%=index%>'><button class='btn btn-warning'>Edit</button></a>
+				<a href='#task/delete/<%=index%>'><button class='btn btn-danger'>Delete</button></a>
+			</td>
+			</tr>
+		<% }) %>
+		</tbody>
+	</table>
+	<a href='#task/add' class='pull-right add-task-btn'><button class='btn btn-primary'>Add task</button></a>
+</script>
+
+<script type="text/html" id='task-template'>
+	<h2> <%= title %> </h2>
+	<p class='task-content'> <%= content %> </p>
+	<p> <span class="pull-right date-title">Date: <%=date%> </span></p>
+</script>
+
+<script type="text/html" id='edit-form-template'>
+	<form method='POST' name='add-task-form' id='<%=document.URL.slice(-1)[0]%>'>
+		<legend>Edit task</legend>
+		<fieldset>
+			<div class="form-group">
+				<input type='text' name='title' value='<%=title%>' class="form-control"/>
+			</div>
+			<div class="form-group">
+				<textarea name='content' rows="7" class="form-control"><%=content%></textarea>
+			</div>
+			<div class="form-group">
+				<label for="date">Date:</label>
+				<input type='date' value='<%=date%>' name='date' class="form-control" id='date'/>
+			</div>
+			<div class="form-group">
+				<button type='submit' class='btn btn-primary pull-right'>Edit</button>
+			</div>
+		</fieldset>
+	</form>
+</script>
+
+<script type="text/html" id='add-task-form-template'>
+	<form method='POST' name='add-task-form'>
+		<legend>Add new task</legend>
+		<fieldset>
+			<div class="form-group">
+				<input type='text' name='title' placeholder='Title' class="form-control"/>
+			</div>
+			<div class="form-group">
+				<textarea name='content' rows="7" class="form-control" placeholder='Task content'/>
+			</div>
+			<div class="form-group">
+				<label for="date">Date:</label>
+				<input type='date' name='date' class="form-control" id="date"/>
+			</div>
+			<div class="form-group">
+				<button type='submit' class='btn btn-primary pull-right'>Add</button>
+			</div>
+		</fieldset>
+	</form>
+</script>
+
+<script type='text/html' id='home-template'> 
+	<div class='jumbotron'>
+		<h1>My first one page application!</h1>
+		<p>Backbone.js gives structure to web applications by providing models with key-value binding and custom events, collections with a rich API of enumerable functions, views with declarative event handling, and connects it all to your existing API over a RESTful JSON interface...</p>
+		<p><a href='#more'><button class='btn btn-primary btn-lg'>Learn more >></button></a></p>
+	</div>
+</script>
+
+<script type='text/html' id='more-template'> 
+	<div class='col-md-6 col-md-offset-3 article'>
+		<h1 class='text-center'>Getting Started</h1>
+		<img src="./img/backbone.png" class='more-img'/>
+		<p>When working on a web application that involves a lot of JavaScript, one of the first things you learn is to stop tying your data to the DOM. It's all too easy to create JavaScript applications that end up as tangled piles of jQuery selectors and callbacks, all trying frantically to keep data in sync between the HTML UI, your JavaScript logic, and the database on your server. For rich client-side applications, a more structured approach is often helpful.</p>
+
+		<p>With Backbone, you represent your data as Models, which can be created, validated, destroyed, and saved to the server. Whenever a UI action causes an attribute of a model to change, the model triggers a "change" event; all the Views that display the model's state can be notified of the change, so that they are able to respond accordingly, re-rendering themselves with the new information. In a finished Backbone app, you don't have to write the glue code that looks into the DOM to find an element with a specific id, and update the HTML manually - when the model changes, the views simply update themselves.</p>
+
+		<p>Philosophically, Backbone is an attempt to discover the minimal set of data-structuring (models and collections) and user interface (views and URLs) primitives that are generally useful when building web applications with JavaScript. In an ecosystem where overarching, decides-everything-for-you frameworks are commonplace, and many libraries require your site to be reorganized to suit their look, feel, and default behavior - Backbone should continue to be a tool that gives you the freedom to design the full experience of your web application.'</p>
+	</div>
+</script>
+
+<script src="./script/jquery-1.11.3.js"></script>
+<script src="./script/underscore.js"></script>
+<script src="./script/backbone.js"></script>
+<script src="./script/main.js"></script>
+<script src="./script/models.js"></script>
+<script src="./script/collections.js"></script>
+<script src="./script/views.js"></script>
+<script type="text/javascript">
+	App.Task.tasks = new App.Task.Collection([
+		new App.Task.Model({
+			title: '1914 translation by H. Rackham',
+			content: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. ',
+			date: '2001-09-05'
+		}),
+		new App.Task.Model({
+			title: 'Section 1.10.33 of de Finibus',
+			content: 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic .',
+			date: '1995-10-20'
+		}),
+		new App.Task.Model({
+			title: 'Bonorum et Malorum", written by Cicero',
+			content: 'On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.',
+			date: '2015-10-10'
+		}),
+		]);
+
+	App.Task.tasksView = new App.Task.CollectionView({
+		collection: App.Task.tasks
+	});
+</script>
+<script src="./script/router.js"></script>
+<script src="./script/bootstrap.min.js"></script>
+<script src="./script/script.js"></script>
+</body>
+</html>
